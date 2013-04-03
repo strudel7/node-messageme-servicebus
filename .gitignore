@@ -15,3 +15,13 @@ results
 
 npm-debug.log
 node_modules
+
+# Mac OS #
+.DS_Store
+.DS_Store?
+
+# Windows #
+Thumbs.db
+
+# WebStorm #
+.idea/

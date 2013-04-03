@@ -1,5 +1,5 @@
 {
-  "SERVICE_BUS_TOPIC": "",
-  "SERVICE_BUS_SUBSCRIPTION": "",
-  "CUSTOMCONNSTR_SERVICEBUS": ""
+  "SERVICE_BUS_TOPIC": "messageme",
+  "SERVICE_BUS_SUBSCRIPTION": "mysubscription",
+  "CUSTOMCONNSTR_SERVICEBUS": "Endpoint=sb://messageme2.servicebus.windows.net/;SharedSecretIssuer=owner;SharedSecretValue=yQ8c4ZqrtTeYo3DjWW4rOXGX2mNNffHtp8P/ubHEoWc="
 }

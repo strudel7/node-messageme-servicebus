@@ -17,7 +17,7 @@ nconf.argv()
 var app = express();
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', nconf.get("PORT") || 3000);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 app.use(express.favicon());
@@ -49,7 +49,8 @@ io.configure(function () {
   io.set('store', new sbstore({
     topic: nconf.get("SERVICE_BUS_TOPIC"),
     subscription: nconf.get("SERVICE_BUS_SUBSCRIPTION"),
-    connectionString: nconf.get("CUSTOMCONNSTR_SERVICEBUS")
+    connectionString: nconf.get("CUSTOMCONNSTR_SERVICEBUS"),
+    logger: io.get('logger')
   }));
 });
 
@@ -57,18 +58,6 @@ io.sockets.on('connection', function (socket) {
   
   socket.on('message', function(data) {
       socket.broadcast.emit('news', data);
-      
-      var entity = {
-        PartitionKey: 'news',
-        RowKey: (new Date()).getTime() + "_" + Math.floor(Math.random()*1000),
-        Message: data,
-      }
-      tableService.insertEntity('messages', entity, function(error){
-        if(!error){
-         // Entity inserted
-        }
-      });
-
   });
 
 });
