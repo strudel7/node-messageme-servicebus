@@ -46,12 +46,12 @@ var sbstore = require('socket.io-servicebus');
 io.configure(function () {
   io.set("transports", ["xhr-polling"]); 
   io.set("polling duration", 30); 
-//  io.set('store', new sbstore({
-//    topic: nconf.get("SERVICE_BUS_TOPIC"),
-//    subscription: nconf.get("SERVICE_BUS_SUBSCRIPTION"),
-//    connectionString: nconf.get("CUSTOMCONNSTR_SERVICEBUS"),
-//    logger: io.get('logger')
-//  }));
+  io.set('store', new sbstore({
+    topic: nconf.get("SERVICE_BUS_TOPIC"),
+    subscription: nconf.get("SERVICE_BUS_SUBSCRIPTION"),
+    connectionString: nconf.get("CUSTOMCONNSTR_SERVICEBUS"),
+    logger: io.get('logger')
+  }));
 });
 
 io.sockets.on('connection', function (socket) {
