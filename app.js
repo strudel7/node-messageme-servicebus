@@ -21,26 +21,11 @@ var topic = nconf.get("SERVICE_BUS_TOPIC");
 var subscription = uuid.v4();
 var serviceBusService = azure.createServiceBusService(connectionString);
 
-  serviceBusService.listSubscriptions(topic, function(error, result) {
-    if (error) {
-      console.log(error);
-    }
-    console.log(result);
-  });
-
 serviceBusService.createSubscription(topic, subscription, function(error){
     if(!error){
         // Subscription created
-        console.log("subscription create: " + subscription);
+        console.log("subscription created: " + subscription);
      }
-});
-
-process.on('exit', function() {
-  serviceBusService.deleteSubscription(topic, subscription, function(error) {
-    if (error) {
-      console.log(error);
-    }
-  });
 });
 
 var app = express();
