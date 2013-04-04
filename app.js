@@ -15,18 +15,6 @@ var express = require('express')
 nconf.argv()
      .env()
      .file({ file: 'config.json' });
-    
-var connectionString = nconf.get("CUSTOMCONNSTR_SERVICEBUS");
-var topic = nconf.get("SERVICE_BUS_TOPIC");
-var subscription = uuid.v4();
-var serviceBusService = azure.createServiceBusService(connectionString);
-
-serviceBusService.createSubscription(topic, subscription, function(error){
-    if(!error){
-        // Subscription created
-        console.log("subscription created: " + subscription);
-     }
-});
 
 var app = express();
 
@@ -62,7 +50,6 @@ io.configure(function () {
   io.set("polling duration", 30); 
   io.set('store', new sbstore({
     topic: nconf.get("SERVICE_BUS_TOPIC"),
-    subscription: subscription,
     connectionString: nconf.get("CUSTOMCONNSTR_SERVICEBUS"),
     logger: io.get('logger')
   }));
