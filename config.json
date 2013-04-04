@@ -1,0 +1,4 @@
+{
+  "SERVICE_BUS_TOPIC": "messageme",
+  "CUSTOMCONNSTR_SERVICEBUS": "Endpoint=sb://messageme2.servicebus.windows.net/;SharedSecretIssuer=owner;SharedSecretValue=yQ8c4ZqrtTeYo3DjWW4rOXGX2mNNffHtp8P/ubHEoWc="
+}

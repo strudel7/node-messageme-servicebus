@@ -8,11 +8,40 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
+  , azure = require('azure')
+  , uuid = require('uuid')
   , nconf = require('nconf');
 
 nconf.argv()
      .env()
      .file({ file: 'config.json' });
+    
+var connectionString = nconf.get("CUSTOMCONNSTR_SERVICEBUS");
+var topic = nconf.get("SERVICE_BUS_TOPIC");
+var subscription = uuid.v4();
+var serviceBusService = azure.createServiceBusService(connectionString);
+
+  serviceBusService.listSubscriptions(topic, function(error, result) {
+    if (error) {
+      console.log(error);
+    }
+    console.log(result);
+  });
+
+serviceBusService.createSubscription(topic, subscription, function(error){
+    if(!error){
+        // Subscription created
+        console.log("subscription create: " + subscription);
+     }
+});
+
+process.on('exit', function() {
+  serviceBusService.deleteSubscription(topic, subscription, function(error) {
+    if (error) {
+      console.log(error);
+    }
+  });
+});
 
 var app = express();
 
@@ -48,7 +77,7 @@ io.configure(function () {
   io.set("polling duration", 30); 
   io.set('store', new sbstore({
     topic: nconf.get("SERVICE_BUS_TOPIC"),
-    subscription: nconf.get("SERVICE_BUS_SUBSCRIPTION"),
+    subscription: subscription,
     connectionString: nconf.get("CUSTOMCONNSTR_SERVICEBUS"),
     logger: io.get('logger')
   }));
