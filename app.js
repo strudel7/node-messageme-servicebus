@@ -43,7 +43,6 @@ var server = http.createServer(app).listen(app.get('port'), function(){
 
 var io = require('socket.io').listen(server);
 
-// Setup the Service Bus store for Socket.IO
 var sbstore = require('socket.io-servicebus');
 io.configure(function () {
   io.set("transports", ["xhr-polling"]); 
